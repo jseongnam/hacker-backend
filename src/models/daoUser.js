@@ -1,4 +1,5 @@
-const dataSource = require("./dataSource")
+const dataSource = require("./dataSource");
+const jwt = require("jsonwebtoken");
 
 const signup = async(userName,email, password) => {
   if(!userName || !password || !email){
@@ -57,8 +58,11 @@ const login = async(username, password) => {
       [username,password]
     );
     if (loginQuery.length > 0) {
-      const userId = loginQuery[0].id;
-      return userId;
+      // const userId = loginQuery[0].id;
+      const token = jwt.sign({username}, process.env.SECRET_KEY,{
+        expiresIn : '1d'
+      })
+      return token;
     } else {
       const error = new Error("Invalid username or password");
       error.statusCode = 400;
@@ -70,6 +74,28 @@ const login = async(username, password) => {
     throw error;
   }
 }
+const userInfo = async(username) => {
+  try{
+    console.log(username);
+    const userInfoQuery = await dataSource.query(
+      `
+      SELECT nickname,
+      email,
+      number_of_posts,
+      number_of_records,
+      number_of_visit,
+      number_of_comment FROM users
+      WHERE user_name = '${username}'
+      `
+    );
+    return userInfoQuery;
+  }catch(error){
+    console.error("해당 user가 존재하지 않습니다", error);
+    error.statusCode = 400;
+    throw error;
+  }
+
+}
 module.exports = {
-  signup, login
+  signup, login, userInfo
 };
