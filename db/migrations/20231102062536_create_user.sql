@@ -5,10 +5,10 @@ CREATE TABLE users(
     nickname VARCHAR(20),
     email VARCHAR(50) NOT NULL,
     password VARCHAR(20) NOT NULL,
-    number_of_posts INT,
-    number_of_records INT,
-    number_of_visit INT,
-    number_of_comment INT,
+    number_of_posts INT DEFAULT 0,
+    number_of_records INT DEFAULT 0,
+    number_of_visit INT DEFAULT 0,
+    number_of_comment INT DEFAULT 0,
     PRIMARY KEY (id)
 );
 
