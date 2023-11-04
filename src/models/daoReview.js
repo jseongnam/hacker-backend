@@ -48,7 +48,11 @@ const getReview = async(username) => {
             `
         )
         return getReviewQuery;
-    }
+    }catch(error){
+        console.error("해당 user가 존재하지 않습니다", error);
+        error.statusCode = 400;
+        throw error;
+      }
 }
 
 module.exports = {
