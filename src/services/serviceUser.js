@@ -39,6 +39,17 @@ class UserService {
       next(error);
     }
   }
+  async userinfoPost(req,res,next){
+    try{
+      console.log("111111111111")
+      const username = req.params.username;
+      console.log(username)
+      const userinfoPost = await User.userinfoPost(username);
+      res.status(200).json({userinfoPost});
+    }catch(error){
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserService();

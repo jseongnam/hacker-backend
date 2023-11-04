@@ -94,8 +94,30 @@ const userInfo = async(username) => {
     error.statusCode = 400;
     throw error;
   }
-
+}
+const userinfoPost = async(username) => {
+  try{
+    const userIdQuery = await dataSource.query(
+      `
+      select id from users
+      where user_name = '${username}';
+      `
+      );
+    console.log(userIdQuery);
+    const user_id = userIdQuery[0].id;
+    const userinfoPostQuery = await dataSource.query(
+      `
+      select * from posts
+      where user_id = ?
+      `,[user_id]
+    );
+    return userinfoPostQuery;
+  }catch(error){
+    console.error("해당 user가 존재하지 않습니다", error);
+    error.statusCode = 400;
+    throw error;
+  }
 }
 module.exports = {
-  signup, login, userInfo
+  signup, login, userInfo,userinfoPost
 };

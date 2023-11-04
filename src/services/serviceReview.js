@@ -19,9 +19,19 @@ class reviewService {
   }
   async get(req,res,next){
     try{
-    const username = req.username;
+    const username = req.params.username;
     const postsInfo = await User.getReview(username);
     res.status(200).json({postsInfo});
+    }catch(error){
+      next(error);
+    }
+  }
+  async postComment(req,res,next){
+    try{
+      const {post_id,title, content} = req.body;
+      const username = req.params.username;
+      await User.postComment(post_id,title,content,username);
+      res.status(200).json({message : "comment가 저장되었습니다."});
     }catch(error){
       next(error);
     }
