@@ -17,6 +17,15 @@ class reviewService {
       next(error);
     }
   }
+  async get(req,res,next){
+    try{
+    const username = req.username;
+    const postsInfo = await User.getReview(username);
+    res.status(200).json({postsInfo});
+    }catch(error){
+      next(error);
+    }
+  }
 }
 
 module.exports = new reviewService();

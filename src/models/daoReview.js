@@ -7,7 +7,7 @@ const postReview = async(username,img, title, content)=>{
         `
         select id from users
         where user_name = '${username}';`);
-        user_id = userIdQuery[0].id;
+        const user_id = userIdQuery[0].id;
 
         const postReviewQuery = await dataSource.query(
             `
@@ -33,6 +33,24 @@ const postReview = async(username,img, title, content)=>{
     
 }
 
+const getReview = async(username) => {
+    try{
+        const userIdQuery = await dataSource.query(
+            `
+            select id from users
+            where user_name = '${username}';`);
+        const user_id = userIdQuery[0].id;
+        
+        const getReviewQuery = await dataSource.query(
+            `
+            select * from posts
+            where user_id = '${user_id}'
+            `
+        )
+        return getReviewQuery;
+    }
+}
+
 module.exports = {
-    postReview
+    postReview, getReview
 };
