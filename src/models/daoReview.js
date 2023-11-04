@@ -1,6 +1,6 @@
 const dataSource = require("./dataSource");
 
-const postReview = async(username, title, content)=>{
+const postReview = async(username,img, title, content)=>{
     try{
         console.log(username);
         const userIdQuery = await dataSource.query(
@@ -12,15 +12,15 @@ const postReview = async(username, title, content)=>{
         const postReviewQuery = await dataSource.query(
             `
             INSERT INTO posts
-            (user_id,title,content)
-            VALUES ('${user_id}','${title}','${content}');
+            (user_id,title,content,img)
+            VALUES ('${user_id}','${title}','${content}','${img}');
             `
         );
         const userPostNumUpdateQuery = await dataSource.query(
             `
             UPDATE users
             SET number_of_posts = number_of_posts + 1
-            WHERE user_id = ${user_id};
+            WHERE id = ${user_id};
             `
         );
         

@@ -9,7 +9,7 @@ class UserService {
 
       res.status(201).json({ message: '회원가입이 완료되었습니다.' });
     } catch (error) {
-      res.status(error.statusCode).json({ error: error.message });
+      res.status(400).json({ error: "회원가입에 실패했습니다." });
     }
   }
   async login(req,res) {
@@ -17,9 +17,9 @@ class UserService {
       const {username, password} = req.body;
       
       const token = await User.login(username, password);
-      res.json({ token });
+      res.status(201).json({ token });
     }catch(error){
-      res.status(error.statusCode).json({ error : error.message});
+      res.status(400).json({ error : "로그인에 실패했습니다."});
     }
   }
   async info(req,res,next){

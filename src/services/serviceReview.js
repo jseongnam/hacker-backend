@@ -1,11 +1,17 @@
 const User = require('../models/daoReview');
+const {google} = require('googleapis');
+const fs = require('fs');
 
+// const CLIENT_ID
+// const CLIENT_SECRET
+// const REDIRECT_URL
+// const TOKEN_PATH 
 class reviewService {
   async post(req,res,next){
     try{
-      const {title, content} = req.body;
+      const {img, title, content} = req.body;
       const username = req.params.username;
-      await User.postReview(username, title, content);
+      await User.postReview(username,img, title, content);
       res.status(200).json({message : "리뷰가 저장되었습니다."});
     }catch(error){
       next(error);
